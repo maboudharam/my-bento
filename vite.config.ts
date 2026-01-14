@@ -16,7 +16,7 @@ export default defineConfig({
       ext: '.br',
     }),
   ],
-  base: './',
+  base: '/',
   build: {
     // Enable minification with terser for better compression
     minify: 'terser',
