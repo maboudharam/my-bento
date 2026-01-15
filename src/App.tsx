@@ -312,8 +312,8 @@ const Block = ({ block }: { block: BlockData }) => {
 
 
 // Profile data
-const profile = {"name":"Mathieu Aboudharam","bio":"Freelance fullstack developer\nBlip blop machines lover","avatarUrl":"/assets/avatar.jpg","theme":"light","primaryColor":"blue","showBranding":true,"analytics":{"enabled":false,"supabaseUrl":""},"socialAccounts":[{"platform":"x","handle":"mat_abou"},{"platform":"github","handle":"maboudharam"}],"openGraph":{"title":"Awesome bento","description":"This is my own openbento space, dedicated to me, myself & I. This is my own openbento space, dedicated to me, myself & I. This is my own openbento space, dedicated to me, myself & I. This is my own op","image":"https://mathieu.aboudharam.fr/assets/img/icons/icon-512x512-7odBggD.png","siteName":"Best Bento in th world","twitterHandle":"mat_abou","twitterCardType":"summary"}}
-const blocks: BlockData[] = [{"id":"bento_1767522478557_euo2cz319","type":"LINK","title":"mathieu.aboudharam.fr","subtext":"Visit my portfolio","content":"https://mathieu.aboudharam.fr","colSpan":3,"rowSpan":3,"gridColumn":1,"gridRow":1,"color":"bg-gray-900","textColor":"text-white"},{"id":"bento_1767522478557_37zsuacrs","type":"SOCIAL","title":"Follow me","subtext":"@dubomatik","content":"https://www.instagram.com/dubomatik/","colSpan":3,"rowSpan":3,"gridColumn":4,"gridRow":1,"color":"bg-white","textColor":"text-gray-900","socialPlatform":"instagram","socialHandle":"dubomatik"},{"id":"gwberg6c9","type":"SOCIAL","title":"GitHub","content":"https://github.com/maboudharam","colSpan":3,"rowSpan":3,"color":"bg-blue-500","textColor":"text-white","gridColumn":7,"gridRow":1,"socialPlatform":"github","socialHandle":"maboudharam","subtext":"@maboudharam"}]
+const profile = {"name":"Mathieu Aboudharam","bio":"Freelance fullstack developer\nBlip blop machines lover","avatarUrl":"/assets/avatar.jpg","theme":"light","primaryColor":"blue","showBranding":true,"analytics":{"enabled":false,"supabaseUrl":""},"socialAccounts":[{"platform":"x","handle":"mat_abou"},{"platform":"github","handle":"maboudharam"},{"platform":"linkedin","handle":"https://www.linkedin.com/in/mathieu-aboudharam"}],"openGraph":{"title":"Awesome bento","description":"This is my own openbento space, dedicated to me, myself & I. This is my own openbento space, dedicated to me, myself & I. This is my own openbento space, dedicated to me, myself & I. This is my own op","image":"https://mathieu.aboudharam.fr/assets/img/icons/icon-512x512-7odBggD.png","siteName":"Best Bento in th world","twitterHandle":"mat_abou","twitterCardType":"summary"},"showSocialInHeader":true}
+const blocks: BlockData[] = [{"id":"bento_1767522478557_euo2cz319","type":"LINK","title":"mathieu.aboudharam.fr","subtext":"Visit my portfolio","content":"https://mathieu.aboudharam.fr","colSpan":3,"rowSpan":3,"gridColumn":1,"gridRow":1,"color":"bg-gray-900","textColor":"text-white"},{"id":"bento_1767522478557_37zsuacrs","type":"SOCIAL","title":"Follow me","subtext":"@dubomatik","content":"https://www.instagram.com/dubomatik/","colSpan":3,"rowSpan":3,"gridColumn":4,"gridRow":1,"color":"bg-white","textColor":"text-gray-900","socialPlatform":"instagram","socialHandle":"dubomatik"},{"id":"gwberg6c9","type":"SOCIAL","title":"GitHub","content":"https://github.com/maboudharam","colSpan":3,"rowSpan":3,"color":"bg-gray-100","textColor":"text-gray-900","gridColumn":7,"gridRow":1,"socialPlatform":"github","socialHandle":"maboudharam","subtext":"@maboudharam"}]
 
 // Patterns for file type detection
 const WEBP_CONVERTIBLE_REGEX = /\.(png|jpe?g)$/i
@@ -432,6 +432,26 @@ export default function App() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-3">{profile.name}</h1>
             <p className="text-base text-gray-500 font-medium whitespace-pre-wrap max-w-xs">{profile.bio}</p>
             
+            <div className="flex flex-wrap gap-3 mt-4">
+              {profile.socialAccounts?.map((acc: any) => {
+                const platform = SOCIAL_PLATFORMS[acc.platform]
+                const Icon = platform?.icon
+                const url = platform?.buildUrl(acc.handle)
+                const showCount = profile.showFollowerCount && acc.followerCount
+                return (
+                  <a key={acc.platform} href={url} target="_blank" rel="noopener noreferrer"
+                    className={`${showCount ? 'px-3 py-2' : 'w-10 h-10'} bg-white rounded-full shadow-md flex items-center justify-center gap-2 hover:scale-105 hover:shadow-lg transition-all`}
+                    style={{ color: platform?.brandColor }}>
+                    {Icon && <Icon size={20} />}
+                    {showCount && (
+                      <span className="text-sm font-semibold text-gray-700">
+                        {formatFollowerCount(acc.followerCount)}
+                      </span>
+                    )}
+                  </a>
+                )
+              })}
+            </div>
           </div>
           <div className="ml-[420px] flex-1 p-12">
             <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(9, 1fr)', gridAutoRows: '64px' }}>
@@ -453,6 +473,26 @@ export default function App() {
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 mb-2">{profile.name}</h1>
             <p className="text-sm text-gray-500 font-medium whitespace-pre-wrap max-w-xs">{profile.bio}</p>
             
+            <div className="flex flex-wrap justify-center gap-3 mt-4">
+              {profile.socialAccounts?.map((acc: any) => {
+                const platform = SOCIAL_PLATFORMS[acc.platform]
+                const Icon = platform?.icon
+                const url = platform?.buildUrl(acc.handle)
+                const showCount = profile.showFollowerCount && acc.followerCount
+                return (
+                  <a key={acc.platform} href={url} target="_blank" rel="noopener noreferrer"
+                      className={`${showCount ? 'px-3 py-2' : 'w-10 h-10'} bg-white rounded-full shadow-md flex items-center justify-center gap-2 hover:-translate-y-0.5 transition-transform`}
+                    style={{ color: platform?.brandColor }}>
+                    {Icon && <Icon size={20} />}
+                    {showCount && (
+                      <span className="text-sm font-semibold text-gray-900">
+                        {formatFollowerCount(acc.followerCount)}
+                      </span>
+                    )}
+                  </a>
+                )
+              })}
+            </div>
           </div>
           <div className="p-4">
             <div className="grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gridAutoRows: '80px', gap: '12px' }}>
